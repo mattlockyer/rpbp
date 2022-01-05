@@ -10,6 +10,7 @@ export const State = (initialState, prefix) => {
 		// console.log('updateState', state, path, newState) // debugging
 		if (path.length === 0) {
 			const retState = { ...state }
+			if (newState === null) return null
 			Object.entries(newState).map(([k, v]) => {
 				retState[k] = state[k] && typeof v === 'object' && !Array.isArray(v) ?
 					updateState(state[k], v) : v

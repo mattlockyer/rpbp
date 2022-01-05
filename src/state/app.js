@@ -1,6 +1,7 @@
 import { State } from '../utils/state';
 
 import { helloWorld } from './hello';
+import { initNear } from './near';
 
 // example
 const initialState = {
@@ -30,6 +31,8 @@ export const onAppMount = (message) => async ({ update, getState, dispatch }) =>
 	update('foo.bar', { hello: false, goodbye: true });
 	update('foo', { bar: { hello: true, goodbye: false } });
 	update('foo.bar.goodbye', true);
+
+	dispatch(initNear());
 
 	await new Promise((resolve) => setTimeout(() => {
 		console.log('getState', getState());

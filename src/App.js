@@ -16,6 +16,8 @@ const App = () => {
 
 	console.log('state', state);
 
+	const { wallet, account } = state
+
 	const onMount = () => {
 		dispatch(onAppMount('world'));
 	};
@@ -36,17 +38,30 @@ const App = () => {
 					<li>
 						<Link to="/hello">Hello</Link>
 					</li>
+					<li>
+						<Link to="/wallet">Wallet</Link>
+					</li>
 				</ul>
 			</nav>
 
 			<Routes>
+				<Route path="/wallet" element={
+					account ? <>
+						<p>{ account.accountId }</p>
+						<button onClick={() => wallet.signOut()}>Sign Out</button>
+					</> :
+					<>
+						<p>Not Signed In</p>
+						<button onClick={() => wallet.signIn()}>Sign In</button>
+					</>
+				} />
 				<Route path="/hello" element={
 					<HelloMessage message={state.foo && state.foo.bar.hello} />
 				} />
 				<Route path="/" element={
 					<>
-					<p>clicked: {JSON.stringify(state.clicked)}</p>
-					<button onClick={handleClick}>Click Me</button>
+						<p>clicked: {JSON.stringify(state.clicked)}</p>
+						<button onClick={handleClick}>Click Me</button>
 					</>
 				} />
 			</Routes>
