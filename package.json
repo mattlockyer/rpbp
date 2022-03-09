@@ -5,13 +5,12 @@
   "author": "Matt Lockyer",
   "license": "ISC",
   "dependencies": {
-    "parcel": "^2.0.1",
+    "parcel": "^2.3.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-router-dom": "^6.2.1"
   },
   "devDependencies": {
-    "@parcel/transformer-sass": "^2.0.1",
     "eslint": "^7.14.0",
     "rimraf": "^3.0.2"
   },
