@@ -1,11 +1,16 @@
+* {
+    box-sizing: border-box;
+}
+
+img {
+    width: 100%;
+}
 
 body {
     margin: 0;
 }
 
-p {
-    font-size: 20px;
+main {
+    margin-top: 64px;
     padding: 16px;
-    margin: 0;
-    font-family: sans-serif;
 }
