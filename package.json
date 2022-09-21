@@ -5,6 +5,10 @@
 	"author": "Matt Lockyer",
 	"license": "ISC",
 	"dependencies": {
+		"@near-wallet-selector/core": "v7.0.3",
+		"@near-wallet-selector/modal-ui": "^7.0.3",
+		"@near-wallet-selector/my-near-wallet": "^7.0.3",
+		"@near-wallet-selector/sender": "v7.0.3",
 		"near-api-js": "^0.45.1",
 		"parcel": "^2.6.2",
 		"react": "^18.2.0",

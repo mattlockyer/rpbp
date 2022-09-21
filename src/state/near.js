@@ -1,29 +1,28 @@
-import * as nearAPI from 'near-api-js';
-const { WalletAccount } = nearAPI
-import { near } from '../../utils/near-utils';
+
+export { accountSuffix, networkId, contractId, walletUrl } from '../../utils/near-utils';
 import getConfig from '../../utils/config';
-const { contractId } = getConfig();
+const { networkId, contractId } = getConfig();
+import { getSelector, getAccount, viewFunction, functionCall as _functionCall } from '../utils/wallet-selector-compat'
 
-export const initNear = () => async ({ update }) => {
+export const initNear = () => async ({ update, getState }) => {
 
-	const wallet = new WalletAccount(near)
-
-	wallet.signIn = () => {
-		wallet.requestSignIn(contractId, 'Blah Blah');
-	};
-	const signOut = wallet.signOut;
-	wallet.signOut = () => {
-		signOut.call(wallet);
-		update('', { account: null });
-	};
-
-	wallet.signedIn = wallet.isSignedIn();
-    
-	let account;
-	if (wallet.signedIn) {
-		account = wallet.account();
+	const selector = await getSelector({
+		networkId,
+		contractId,
+		onAccountChange: async (accountId) => {
+			if (!accountId) {
+				return update('app.loading', false)
+			}
+			console.log('Current Account:', accountId)
+		}
+	})
+	
+	const account = await getAccount()
+	if (account) {
+		selector.accountId = account.accountId
+		selector.functionCall = _functionCall
+		selector.viewFunction = viewFunction
 	}
 
-	await update('', { near, wallet, account });
-
+	await update('', { wallet: selector });
 };

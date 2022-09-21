@@ -9,14 +9,13 @@ import { appStore, onAppMount } from './state/app';
 import { Header } from './components/Header';
 import { Home } from './components/Home';
 
-import './css/normalize.css';
-import './css/skeleton.css';
+import './css/modal-ui.css';
 import './App.scss';
 
 const App = () => {
 	const { state, dispatch, update } = useContext(appStore);
 
-	const { app, wallet, account } = state
+	const { app, wallet } = state
 	const { menu } = app
 	const { pathname } = useLocation();
 
@@ -31,40 +30,44 @@ const App = () => {
 
 	return (
 		<div>
-			<Header {...{ pathname, menu, account, update }} />
+			<Header {...{ pathname, menu, wallet, update }} />
 			{
-				account ?
-					/* Account Paths */
-					<main>
-						<Routes>
-							<Route path="/account" element={
-								<>
-									<p>{account.accountId}</p>
-									<button onClick={() => wallet.signOut()}>Sign Out</button>
-								</>
-							} />
-							<Route path="/" element={<Home {...routeArgs} />} />
-						</Routes>
-					</main>
-					:
-					/* Public Paths */
-					<main>
-						<Routes>
-							<Route path="/about" element={
-								<>
-									<p>App is dope</p>
-								</>
-							} />
-							<Route path="/" element={
-								<>
-									<p>Please sign in to get started</p>
-									<button onClick={() => wallet.signIn()}>Sign In</button>
-								</>
-							} />
-						</Routes>
-					</main>
+				wallet &&
+				<>
+				{
+					wallet.accountId ?
+						/* Account Paths */
+						<main>
+							<Routes>
+								<Route path="/account" element={
+									<>
+										<p>{wallet.accountId}</p>
+										<button onClick={() => wallet.signOut()}>Sign Out</button>
+									</>
+								} />
+								<Route path="/" element={<Home {...routeArgs} />} />
+							</Routes>
+						</main>
+						:
+						/* Public Paths */
+						<main>
+							<Routes>
+								<Route path="/about" element={
+									<>
+										<p>App is dope</p>
+									</>
+								} />
+								<Route path="/" element={
+									<>
+										<p>Please sign in to get started</p>
+										<button onClick={() => wallet.signIn()}>Sign In</button>
+									</>
+								} />
+							</Routes>
+						</main>
+				}
+				</>
 			}
-
 		</div>
 	);
 };
