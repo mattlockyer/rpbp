@@ -9,20 +9,20 @@ import './Header.scss';
 
 import { Menu } from 'react-feather';
 
-const Links = ({ update, account }) => {
+const Links = ({ update, wallet }) => {
 	const hideMenu = () => update('app.menu', false)
 	return <nav>
 		<Link onClick={hideMenu} to="/">Home</Link>
 		<Link onClick={hideMenu} to="/about">About</Link>
 		{
-			account && <>
+			wallet?.accountId && <>
 				<Link onClick={hideMenu} to="/account">Account</Link>
 			</>
 		}
 	</nav>
 }
 
-export const Header = ({ pathname, menu, account, update }) => {
+export const Header = ({ pathname, menu, wallet, update }) => {
 	return <header>
 		<div>
 			<p>
@@ -31,8 +31,8 @@ export const Header = ({ pathname, menu, account, update }) => {
 		</div>
 		<div>
 			<Menu onClick={() => update('app', { menu: !menu })} />
-			<Links {...{ update, account }} />
+			<Links {...{ update, wallet }} />
 		</div>
-		{menu && window.innerWidth < 768 && <Links {...{ update, account }} />}
+		{menu && window.innerWidth < 768 && <Links {...{ update, wallet }} />}
 	</header>
 }

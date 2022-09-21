@@ -3,6 +3,7 @@ import {
 	Routes,
 	Route,
 	useLocation,
+	useNavigate,
 } from "react-router-dom";
 
 import { appStore, onAppMount } from './state/app';
@@ -17,6 +18,7 @@ const App = () => {
 
 	const { app, wallet } = state
 	const { menu } = app
+	const navigate = useNavigate();
 	const { pathname } = useLocation();
 
 	const onMount = () => {
@@ -33,40 +35,48 @@ const App = () => {
 			<Header {...{ pathname, menu, wallet, update }} />
 			{
 				wallet &&
-				<>
+				<main>
+					<Routes>
 				{
 					wallet.accountId ?
-						/* Account Paths */
-						<main>
-							<Routes>
-								<Route path="/account" element={
-									<>
-										<p>{wallet.accountId}</p>
-										<button onClick={() => wallet.signOut()}>Sign Out</button>
-									</>
-								} />
-								<Route path="/" element={<Home {...routeArgs} />} />
-							</Routes>
-						</main>
-						:
-						/* Public Paths */
-						<main>
-							<Routes>
-								<Route path="/about" element={
-									<>
-										<p>App is dope</p>
-									</>
-								} />
-								<Route path="/" element={
-									<>
-										<p>Please sign in to get started</p>
-										<button onClick={() => wallet.signIn()}>Sign In</button>
-									</>
-								} />
-							</Routes>
-						</main>
+					/* Account Paths */
+					<>
+						<Route path="/account" element={
+							<>
+								<p>Signed in as: {wallet.accountId}</p>
+								<button onClick={() => {
+									wallet.signOut()
+									navigate('/')
+								}}>Sign Out</button>
+							</>
+						} />
+						<Route path="/about" element={
+							<>
+								<p>App is dope</p>
+							</>
+						} />
+						<Route path="/" element={<Home {...routeArgs} />} />
+					</>
+								
+							
+					:
+					/* Public Paths */
+					<>
+						<Route path="/about" element={
+							<>
+								<p>App is dope</p>
+							</>
+						} />
+						<Route path="/" element={
+							<>
+								<p>Please sign in to get started</p>
+								<button onClick={() => wallet.signIn()}>Sign In</button>
+							</>
+						} />
+					</>
 				}
-				</>
+					</Routes>
+				</main>
 			}
 		</div>
 	);
