@@ -18,11 +18,9 @@ export const initNear = () => async ({ update, getState }) => {
 	})
 	
 	const account = await getAccount()
-	if (account) {
-		selector.accountId = account.accountId
-		selector.functionCall = _functionCall
-		selector.viewFunction = viewFunction
-	}
+	selector.accountId = account.accountId
+	selector.functionCall = _functionCall
+	selector.viewFunction = viewFunction
 
 	await update('', { wallet: selector });
 };
